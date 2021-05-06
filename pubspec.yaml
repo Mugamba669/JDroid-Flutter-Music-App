@@ -34,6 +34,7 @@ dependencies:
   syncfusion_flutter_sliders: ^19.1.58-beta
   audioplayers: ^0.16.1
   flutter_audio_query: ^0.3.4+1
+  just_audio: ^0.6.15+1
 dev_dependencies:
   
   flutter_test:
