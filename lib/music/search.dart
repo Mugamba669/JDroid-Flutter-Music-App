@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 
 class SearchTrack extends StatefulWidget {
+  // List<SongInfo> trackList;
   SearchTrack({Key key}) : super(key: key);
 
   @override
@@ -103,8 +104,9 @@ class _SearchResultsState extends State<SearchResults> {
         fit: BoxFit.contain,
       );
       else
-        Image.file(File(widget.result[value].albumArtwork),
-        fit:BoxFit.contain,
+      return Image(
+          image :FileImage(File(widget.result[value].albumArtwork),),
+          fit: BoxFit.contain,
         );
   }
   @override
@@ -116,7 +118,7 @@ class _SearchResultsState extends State<SearchResults> {
                       subtitle: Text(widget.result[index].artist),
                       onTap: (){
                         Navigator.push(context, 
-                        MaterialPageRoute(builder: (context) => Portrait(index: index,)));
+                        MaterialPageRoute(builder: (context) => Portrait()));
                       },
                   );
             },

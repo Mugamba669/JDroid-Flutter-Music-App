@@ -49,7 +49,7 @@ class _PortEqState extends State<PortEq> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: _currentPage),
       floatingActionButton: FloatingActionButton.extended(

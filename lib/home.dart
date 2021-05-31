@@ -1,5 +1,8 @@
-import 'package:app/UI/player.dart';
-import 'package:app/music/songs.dart';
+// import 'package:app/Eq/eq.dart';
+import 'package:app/library.dart';
+import 'package:app/music/search.dart';
+// import 'package:equalizer/equalizer.dart';
+// import 'package:app/music/songs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +20,28 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     });
     
   }
+  Widget currentPage;
+  List pages = [];
+  int _currentIndex = 0;
+  @override
+  void initState() { 
+    super.initState();
+    pages..add(Library())..add(SearchTrack());
+    currentPage = pages[_currentIndex];
+  }
   
-  GlobalKey<ScaffoldState> open = GlobalKey<ScaffoldState>(debugLabel: "Demo");
+  void openBar(int index){
+  //  setState(() {
+      _currentIndex = index;
+      currentPage = pages[index];
+  //  });
+  }
+  GlobalKey<ScaffoldState> open = GlobalKey<ScaffoldState>();
   // GlobalKey btn = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: open,
       // backgroundColor: Colors.black12,
       appBar: AppBar(
@@ -35,116 +54,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
         actions: [
         
       ],),
-      body: GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        addAutomaticKeepAlives: true,
-        children: [
-          Card(
-            elevation: 16.0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.5),
-                  color: Colors.black38,
-                  image:DecorationImage(
-                    alignment: Alignment.center,
-                    image: AssetImage("images/default2.png"),
-                    colorFilter:ColorFilter.mode(Colors.black45, BlendMode.darken),
-                    fit: BoxFit.cover)
-              ),
-              child: TextButton.icon(
-                icon: Icon(Icons.music_note_rounded,color: Colors.orangeAccent,size:30),
-                
-                label: Text("All Music",
-                style: TextStyle(
-                color:Colors.orangeAccent
-              ),
-              ),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) =>  Songs()
-                  ),);
-              },
-              ),
-            ),
-          ),
-
-          Card(
-            elevation: 16.0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.5),
-                  color: Colors.black38,
-                  image:DecorationImage(
-                    alignment: Alignment.center,
-                    image: AssetImage("images/default2.png"),
-                    colorFilter:ColorFilter.mode(Colors.black45, BlendMode.darken),
-                    fit: BoxFit.cover)
-              ),
-              child: TextButton.icon(
-                icon: Icon(Icons.album_rounded,color: Colors.orangeAccent,size: 30,),
-                label: Text("Albums",
-                style: TextStyle(
-                color:Colors.orangeAccent
-              ),
-              ),
-              onPressed: (){},
-              ),
-            ),
-          ),
-        Card(
-            elevation: 16.0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.5),
-                  color: Colors.black38,
-                  image:DecorationImage(
-                    alignment: Alignment.center,
-                    image: AssetImage("images/default2.png"),
-                    colorFilter:ColorFilter.mode(Colors.black45, BlendMode.darken),
-                    fit: BoxFit.cover)
-              ),
-              child: TextButton.icon(
-                icon: Icon(Icons.playlist_play_rounded,color: Colors.orangeAccent,size: 30,),
-                label: Text("PlayLists",
-                style: TextStyle(
-                color:Colors.orangeAccent,
-                // fontSize: 18,
-              ),
-              ),
-              onPressed: (){
-
-              },
-              ),
-            ),
-          ),
-
-           Card(
-            elevation: 16.0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.5),
-                  color: Colors.black38,
-                  image:DecorationImage(
-                    alignment: Alignment.center,
-                    image: AssetImage("images/default2.png"),
-                    colorFilter:ColorFilter.mode(Colors.black45, BlendMode.darken),
-                    fit: BoxFit.cover)
-              ),
-              child: TextButton.icon(
-                icon: Icon(Icons.speaker,color: Colors.orangeAccent,size: 30,),
-                label: Text("Genres",
-                style: TextStyle(
-                color:Colors.orangeAccent
-              ),
-              ),
-              onPressed: (){},
-              ),
-            ),
-          ),
-
-        ],
-      ),
+      body:currentPage,
       drawer: Drawer(
         elevation: 30.0,
         child:Container(
@@ -168,13 +78,12 @@ class _Home extends State<Home> with TickerProviderStateMixin{
              accountEmail: Text("brunohectre@gmail.com",style: TextStyle(color: Colors.orangeAccent))),
              Divider(color: Colors.orangeAccent,thickness: 0.46,),
              ListTile(
-               leading:Icon(Icons.play_circle_fill_rounded,color: Colors.orangeAccent),
-               title:Text("Player UI",style: TextStyle(color: Colors.orangeAccent)
+               leading:Icon(Icons.settings,color: Colors.orangeAccent),
+               title:Text("Settings",style: TextStyle(color: Colors.orangeAccent)
               ),
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(
-                builder:(context) => Player()));
-              },
+                Navigator.pop(context);
+              }
              ),
              Divider(color: Colors.orangeAccent,thickness: 0.46,),
              ListTile(
@@ -190,6 +99,26 @@ class _Home extends State<Home> with TickerProviderStateMixin{
           ),
         )
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        type: BottomNavigationBarType.shifting,
+        currentIndex: _currentIndex,
+        onTap: (value){
+            openBar(value);
+        },
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Colors.black,
+            icon: Icon(Icons.library_music_rounded,color: Colors.orangeAccent,),
+            label: "Library",
+            ),
+ BottomNavigationBarItem(
+            icon: Icon(Icons.search_rounded,color: Colors.orangeAccent),
+            label: "Search",
+            ),
+
+        ],
+        ),
       );
   }
 }
