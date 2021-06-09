@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:app/music/albums.dart';
-import 'package:app/music/genres.dart';
+// import 'package:app/music/genres.dart';
 import 'package:app/music/playlist.dart';
 import 'package:app/music/songs.dart';
 import 'package:flutter/material.dart';

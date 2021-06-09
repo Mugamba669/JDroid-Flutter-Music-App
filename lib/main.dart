@@ -1,57 +1,40 @@
-import 'dart:async';
-import 'dart:ui';
 import 'package:app/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
   runApp(App());
 }
 
-class App extends StatelessWidget{
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // return FutureBuilder(
+    //   // Replace the 3 second delay with your initialization code:
+    //   future: Future.delayed(Duration(seconds: 3)),
+    //   builder: (context, AsyncSnapshot snapshot) {
+    //     // Show splash screen while waiting for app resources to load:
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return MaterialApp(
+    //         debugShowCheckedModeBanner: false,
+    //         home: Splash(),
+    //       );
+    //     } else {
+    //       // Loading is done, return the app:
+    //       return MaterialApp(
+    //         debugShowCheckedModeBanner: false,
+    //         home: Home(),
+    //       );
+    //     }
+    //   },
+    // );
     return MaterialApp(
-    debugShowCheckedModeBanner:false,
-      home: Splash(),
-      );
-  }
-}
-
-class Splash extends StatefulWidget{
-  @override
-  _Splash createState() => _Splash();
-}
-class _Splash extends State<Splash>{
-  void initState(){
-    super.initState();
-    Timer(Duration(seconds: 5), (){
-      Navigator.pushReplacement(
-        context, 
-        MaterialPageRoute(
-          builder:(context) => Home(),
-          ),
-        );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.zero,
-      color: Colors.black,
-      child: Column(
-        children: [
-          Center(
-            child: Image(image: AssetImage("images/default3.png"),
-            fit: BoxFit.contain,),
-          ),
-          CircularProgressIndicator(
-            strokeWidth: 2.0,
-          )
-        ],
-      ),
+      debugShowCheckedModeBanner: false,
+      home: Home(),
     );
   }
 }
