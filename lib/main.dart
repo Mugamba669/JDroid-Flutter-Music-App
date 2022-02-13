@@ -6,7 +6,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top]);
   runApp(App());
 }
 
@@ -33,6 +34,8 @@ class App extends StatelessWidget {
     //   },
     // );
     return MaterialApp(
+      // theme: Theme.of(context).appBarTheme.backgroundColor.blue,
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       home: Home(),
     );

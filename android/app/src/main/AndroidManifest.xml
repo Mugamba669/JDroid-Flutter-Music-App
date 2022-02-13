@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.app">
    <application
-        android:label="Jdroid"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Lw-Droid"
+        android:icon="@mipmap/pa">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

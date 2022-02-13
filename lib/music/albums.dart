@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:app/music/albumMusic.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 
 class Albums extends StatefulWidget {

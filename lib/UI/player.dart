@@ -1,27 +1,23 @@
 import 'dart:io';
 import 'dart:ui';
 
-// import 'package:app/music/songs.dart';
-import 'package:app/UI/visuals.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:equalizer/equalizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
-// import 'package:flutter_visualizers/visualizer.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 void main() {
-  SystemChrome.setEnabledSystemUIOverlays(
-      [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   runApp(Player());
 }
 
 class Player extends StatefulWidget {
   final int jam;
-  final List<SongInfo> songs;
+  final List songs;
   const Player({Key key, this.jam, this.songs}) : super(key: key);
 
   @override
@@ -33,6 +29,7 @@ class _PlayerState extends State<Player> {
   AudioCache cached;
   Duration musiclength = new Duration();
   Duration position = new Duration();
+
   int index;
   bool playpause = false;
   String url, title, nextTrac, artist;
@@ -40,6 +37,7 @@ class _PlayerState extends State<Player> {
   @override
   void initState() {
     super.initState();
+
     Equalizer.init(0);
     index = widget.jam;
     url = widget.songs[index].filePath;
@@ -408,13 +406,13 @@ class _PlayerState extends State<Player> {
                                               ),
                                               onTap: () {
                                                 Navigator.pop(context);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Visual(),
-                                                      fullscreenDialog: true),
-                                                );
+                                                // Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //       builder: (context) =>
+                                                //           Visual(),
+                                                //       fullscreenDialog: true),
+                                                // );
                                               },
                                             ),
                                           ],

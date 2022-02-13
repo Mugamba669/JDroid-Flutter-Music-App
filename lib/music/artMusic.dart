@@ -37,7 +37,7 @@ class _ArtMusicState extends State<ArtMusic> {
           ),
           child: FutureBuilder(
             future: FlutterAudioQuery()
-                .getSongsFromArtist(artist: widget.artistName),
+                .getSongsFromArtist(artistId: widget.artistName),
             builder: (context, snapshot) {
               List<SongInfo> songs = snapshot.data;
               return snapshot.hasData

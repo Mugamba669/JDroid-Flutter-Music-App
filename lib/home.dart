@@ -1,10 +1,13 @@
-// import 'package:app/Eq/eq.dart';
-import 'package:app/library.dart';
-import 'package:app/music/search.dart';
-// import 'package:equalizer/equalizer.dart';
-// import 'package:app/music/songs.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:ui';
+
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'music/albums.dart';
+import 'music/artists.dart';
+import 'music/playlist.dart';
+import 'music/songs.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,127 +15,238 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> with TickerProviderStateMixin {
-  double width = 100.0;
-  double height = 100.0;
-
-  void increaseWidth() {
-    setState(() {});
-  }
-
-  Widget currentPage;
-  List pages = [];
-  int _currentIndex = 0;
   @override
   void initState() {
     super.initState();
-    pages..add(Library())..add(SearchTrack());
-    currentPage = pages[_currentIndex];
   }
 
-  void openBar(int index) {
-    //  setState(() {
-    _currentIndex = index;
-    currentPage = pages[index];
-    //  });
-  }
-
-  GlobalKey<ScaffoldState> open = GlobalKey<ScaffoldState>();
+  GlobalKey<SwipeDrawerState> drawerkey = GlobalKey<SwipeDrawerState>();
   // GlobalKey btn = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      key: open,
-      // backgroundColor: Colors.black12,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.orangeAccent),
-          onPressed: () {
-            open.currentState.openDrawer();
-          },
-        ),
-        title: Text("Jdroid App", style: TextStyle(color: Colors.orangeAccent)),
-        backgroundColor: Colors.black,
-        actions: [],
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      // backgroundColor: Colors,
+      body: SwipeDrawer(
+        radius: 10,
+        child: buildBody(),
+        drawer: buildDrawer(),
+        key: drawerkey,
+        backgroundColor: Colors.black12,
+        curve: Curves.bounceInOut,
       ),
-      body: currentPage,
-      drawer: Drawer(
-          elevation: 30.0,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.95),
-                backgroundBlendMode: BlendMode.darken),
-            child: ListView(
-              children: [
-                UserAccountsDrawerHeader(
-                    margin: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            colorFilter: ColorFilter.mode(
-                                Colors.black54, BlendMode.darken),
-                            image: AssetImage("images/default2.png"),
-                            fit: BoxFit.cover)),
-                    accountName: Text("Mugamba",
-                        style: TextStyle(color: Colors.orangeAccent)),
-                    accountEmail: Text("brunohectre@gmail.com",
-                        style: TextStyle(color: Colors.orangeAccent))),
-                Divider(
-                  color: Colors.orangeAccent,
-                  thickness: 0.46,
-                ),
-                ListTile(
-                    leading: Icon(Icons.settings, color: Colors.orangeAccent),
-                    title: Text("Settings",
-                        style: TextStyle(color: Colors.orangeAccent)),
-                    onTap: () {
-                      Navigator.pop(context);
-                    }),
-                Divider(
-                  color: Colors.orangeAccent,
-                  thickness: 0.46,
-                ),
-                ListTile(
-                  leading: Icon(Icons.help_center_rounded,
-                      color: Colors.orangeAccent),
-                  title: Text(
-                    "Contact Support",
-                    style: TextStyle(color: Colors.orangeAccent),
+    );
+  }
+
+  Widget buildBody() {
+    return NestedScrollView(
+      scrollDirection: Axis.horizontal,
+      headerSliverBuilder: (context, id) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: SliverAppBar(
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      colorFilter: ColorFilter.mode(
+                        Colors.black,
+                        BlendMode.darken,
+                      ),
+                      fit: BoxFit.cover,
+                      image: AssetImage("images/quin.jpg"),
+                    ),
                   ),
                 ),
-                Divider(
+                title: Text(
+                  "Library",
+                  style: Theme.of(context).textTheme.headline5.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w200,
+                      ),
+                ),
+                centerTitle: true,
+              ),
+              backgroundColor: Colors.black,
+              expandedHeight: 250,
+              pinned: false,
+              leading: InkWell(
+                child: Icon(Icons.list),
+                onTap: () {
+                  if (drawerkey.currentState.isOpened()) {
+                    drawerkey.currentState.closeDrawer();
+                  } else {
+                    drawerkey.currentState.openDrawer();
+                  }
+                },
+              ),
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+            ),
+          )
+        ];
+      },
+      body: Center(
+        child: bodyLib(),
+      ),
+    );
+  }
+
+//Library body
+  Widget bodyLib() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.transparent,
+          image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                Colors.black,
+                BlendMode.darken,
+              ),
+              image: AssetImage("images/quin.jpg"),
+              fit: BoxFit.cover)),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+        child: SafeArea(
+          child: ListView(
+            children: [
+              ListTile(
+                leading: Icon(
+                  Icons.music_note_rounded,
                   color: Colors.orangeAccent,
-                  thickness: 0.46,
                 ),
-                ListTile(
-                  leading:
-                      Icon(Icons.feedback_rounded, color: Colors.orangeAccent),
-                  title: Text(
-                    "FeedBack",
-                    style: TextStyle(color: Colors.orangeAccent),
-                  ),
-                ),
-              ],
-            ),
-          )),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.shifting,
-        currentIndex: _currentIndex,
-        onTap: (value) {
-          openBar(value);
-        },
-        items: [
-          BottomNavigationBarItem(
-            backgroundColor: Colors.black,
-            icon: Icon(
-              Icons.library_music_rounded,
-              color: Colors.orangeAccent,
-            ),
-            label: "Library",
+                title: Text("All Songs",
+                    style: TextStyle(
+                      color: Colors.orangeAccent,
+                    )),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Songs(),
+                        fullscreenDialog: true,
+                      ));
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.album_rounded, color: Colors.orangeAccent),
+                title: Text("Albums",
+                    style: TextStyle(
+                      color: Colors.orangeAccent,
+                    )),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Albums(),
+                        fullscreenDialog: true,
+                      ));
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.speaker_group_rounded,
+                    color: Colors.orangeAccent),
+                title: Text("Artists",
+                    style: TextStyle(
+                      color: Colors.orangeAccent,
+                    )),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Artists(),
+                        fullscreenDialog: true,
+                      ));
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.playlist_play_rounded,
+                    color: Colors.orangeAccent),
+                title: Text("Playlists",
+                    style: TextStyle(
+                      color: Colors.orangeAccent,
+                    )),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlayLists(),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_rounded, color: Colors.orangeAccent),
-            label: "Search",
+        ),
+      ),
+    );
+  }
+
+  Widget buildDrawer() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.95),
+        backgroundBlendMode: BlendMode.darken,
+      ),
+      child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+            margin: EdgeInsets.zero,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    colorFilter:
+                        ColorFilter.mode(Colors.black87, BlendMode.darken),
+                    image: AssetImage("images/quin.jpg"),
+                    fit: BoxFit.cover)),
+            accountName: Text(
+              "Mugamba",
+              style: TextStyle(color: Colors.orangeAccent),
+            ),
+            accountEmail: Text(
+              "brunohectre@gmail.com",
+              style: TextStyle(color: Colors.orangeAccent),
+            ),
+          ),
+          Divider(
+            color: Colors.orangeAccent,
+            thickness: 0.46,
+          ),
+          ListTile(
+              leading: Icon(Icons.settings, color: Colors.orangeAccent),
+              title: Text(
+                "Settings",
+                style: TextStyle(color: Colors.orangeAccent),
+              ),
+              onTap: () {
+                // Navigator.pop(context);
+                drawerkey.currentState.closeDrawer();
+              }),
+          Divider(
+            color: Colors.orangeAccent,
+            thickness: 0.46,
+          ),
+          ListTile(
+            leading:
+                Icon(Icons.help_center_rounded, color: Colors.orangeAccent),
+            title: Text(
+              "Contact Support",
+              style: TextStyle(color: Colors.orangeAccent),
+            ),
+          ),
+          Divider(
+            color: Colors.orangeAccent,
+            thickness: 0.46,
+          ),
+          ListTile(
+            leading: Icon(Icons.feedback_rounded, color: Colors.orangeAccent),
+            title: Text(
+              "FeedBack",
+              style: TextStyle(color: Colors.orangeAccent),
+            ),
           ),
         ],
       ),
