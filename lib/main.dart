@@ -14,28 +14,9 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //   // Replace the 3 second delay with your initialization code:
-    //   future: Future.delayed(Duration(seconds: 3)),
-    //   builder: (context, AsyncSnapshot snapshot) {
-    //     // Show splash screen while waiting for app resources to load:
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return MaterialApp(
-    //         debugShowCheckedModeBanner: false,
-    //         home: Splash(),
-    //       );
-    //     } else {
-    //       // Loading is done, return the app:
-    //       return MaterialApp(
-    //         debugShowCheckedModeBanner: false,
-    //         home: Home(),
-    //       );
-    //     }
-    //   },
-    // );
     return MaterialApp(
-      // theme: Theme.of(context).appBarTheme.backgroundColor.blue,
-      themeMode: ThemeMode.dark,
+      color: Colors.black,
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       home: Home(),
     );

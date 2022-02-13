@@ -247,7 +247,7 @@ class _TrackBuilderState extends State<TrackBuilder> {
               style: TextStyle(color: Colors.white)),
           subtitle: Text(widget.songs[index].artist,
               style: TextStyle(color: Colors.white)),
-          onTap: () {
+          onTap: () async {
             // url = widget.songs[index].filePath;
             image = widget.songs[index].albumArtwork;
             Navigator.push(

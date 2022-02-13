@@ -43,7 +43,7 @@ class _PlayerState extends State<Player> {
     url = widget.songs[index].filePath;
     title = widget.songs[index].title;
     artist = widget.songs[index].artist;
-    nextTrac = widget.songs[index + 1].title;
+    nextTrac = widget.songs[index].title;
     cached = AudioCache(fixedPlayer: player);
     // player.getAudioSessionId();
     player.play(url);
@@ -81,7 +81,7 @@ class _PlayerState extends State<Player> {
 
   void seekToSec(var sec) {
     setState(() {
-      var posSec = Duration(seconds: sec);
+      var posSec = Duration(seconds: int.parse(sec));
       player.seek(posSec);
     });
   }
